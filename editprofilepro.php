@@ -148,7 +148,7 @@ mysqli_close($conn);
 <div class="header">
         <div class="container">
             <nav id="home" class="navstyle">
-                <a class="logo" href="index.html"><img src="./images/logo.png" alt="Hirafee"></a> 
+                <a class="logo" href="bricolepro.php"><img src="./images/logo.png" alt="Hirafee"></a> 
                 <div class="flinks">
                     <li>
                         <a id="connexion-link" class="connexion dropdown-toggle" href="logout.php">
@@ -309,7 +309,7 @@ mysqli_close($conn);
                     <div class="col-xl-4 col-lg-4 mb-50">
                         <div class="footer-widget">
                             <div class="footer-logo">
-                                <a href="index.html"><img src="./images/hirafee-white.png" class="img-fluid" alt="logo"></a>
+                                <a href="bricolepro.php"><img src="./images/hirafee-white.png" class="img-fluid" alt="logo"></a>
                             </div>
                             <div class="footer-text">
                                 <p> Hiraf-ee simplifie la recherche d'artisans de confiance en Algérie.
