@@ -1,0 +1,23 @@
+
+.section-container {
+    margin-bottom: 20px; /* Add space between sections */
+}
+.section-container h2 {
+    margin-bottom: 10px; /* Add space below heading */
+}
+.section-container a {
+    display: block; /* Display anchors as block to occupy full width */
+    background-color:  #ef7900; /* Orange background */
+    padding: 10px 20px; /* Add padding */
+    border-radius: 5px; /* Add border radius */
+    text-align: center; /* Center text */
+    color: white; /* White text color */
+    text-decoration: none; /* Remove underline */
+}
+.section-container i {
+    margin-right: 10px; /* Add space between icon and text */
+}
+.container-inscription header {
+    margin-bottom: 20px;
+}
+
