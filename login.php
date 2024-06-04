@@ -188,7 +188,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <i class="far fa-envelope-open"></i>
                             <div class="cta-text">
                                 <h4>Contactez-nous</h4>
-                                <span>mail@hirafee.com</span>
+                                <span>mail@bricole.com</span>
                             </div>
                         </div>
                     </div>
@@ -202,7 +202,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <a href="index.html"><img src="images/hirafee-white.png" class="img-fluid" alt="logo"></a>
                             </div>
                             <div class="footer-text">
-                                <p> Hiraf-ee simplifie la recherche d'artisans de confiance en Algérie.
+                                <p> Bricole simplifie la recherche d'artisans de confiance en Algérie.
                                     Trouvez les meilleurs professionnels <br> du bâtiment évalués avec précision. </p>
                             </div>
                             <div class="footer-social-icon">
@@ -216,7 +216,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="col-xl-4 col-lg-4 col-md-6 mb-30">
                         <div class="footer-widget">
                             <div class="footer-widget-heading">
-                                <h3>HIRAF-EE</h3>
+                                <h3>Bricole</h3>
                             </div>
                             <ul>
                             <li><a href="index.html#recherche">Recherche</a></li>
