@@ -1,8 +1,9 @@
 <?php
-session_start(); // Start the session at the top of the file
+session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-$errors = array(); // Define an array to store errors
+
+$errors = array();
 
 if (isset($_POST["submit"])) {
     $prenom = $_POST["prenom"];
@@ -12,7 +13,7 @@ if (isset($_POST["submit"])) {
     $data_naissance = $_POST["data_naissance"];
     $sexe = $_POST["sexe"];
     $password = $_POST["password"];
-    $confirm_password = $_POST["confirm_password"]; // Capture confirmed password
+    $confirm_password = $_POST["confirm_password"];
     $nomrue = $_POST["nomrue"];
     $adresse = $_POST["adresse"];
     $ville = $_POST["ville"];
@@ -22,7 +23,10 @@ if (isset($_POST["submit"])) {
     $str_jur = $_POST["str_jur"];
     $siret = $_POST["siret"];
 
-    // Check if any required field is empty
+    // Store form data in session to repopulate on error
+    $_SESSION['form_data'] = $_POST;
+
+    // Validate required fields
     if (empty($prenom) || empty($nom) || empty($email) || empty($mobile) || empty($data_naissance) ||
         empty($sexe) || empty($password) || empty($confirm_password) || empty($nomrue) || empty($adresse) || empty($ville) || empty($codepost) ||
         empty($metier) || empty($nom_commerce) || empty($str_jur) || empty($siret)) {
@@ -46,6 +50,8 @@ if (isset($_POST["submit"])) {
 
     if (empty($errors)) {
         require_once "database.php";
+
+        // Check if email already exists
         $sql_check_email = "SELECT * FROM prousers WHERE email = ?";
         $stmt_check_email = mysqli_stmt_init($conn);
         if (mysqli_stmt_prepare($stmt_check_email, $sql_check_email)) {
@@ -55,6 +61,7 @@ if (isset($_POST["submit"])) {
             if (mysqli_stmt_num_rows($stmt_check_email) > 0) {
                 array_push($errors, "L'email existe déjà.");
             } else {
+                // Hash the password
                 $passwordHash = password_hash($password, PASSWORD_DEFAULT);
                 $sql = "INSERT INTO prousers (prenom, nom, email, mobile, data_naissance, sexe, password, nomrue, adresse, ville, codepost, metier, nom_commerce, str_jur, siret) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 $stmt = mysqli_stmt_init($conn);
@@ -62,6 +69,7 @@ if (isset($_POST["submit"])) {
                     mysqli_stmt_bind_param($stmt, "sssssssssssssss", $prenom, $nom, $email, $mobile, $data_naissance, $sexe, $passwordHash, $nomrue, $adresse, $ville, $codepost, $metier, $nom_commerce, $str_jur, $siret);
                     mysqli_stmt_execute($stmt);
                     $_SESSION['success_message'] = "Inscription réussie ! Bienvenue sur votre tableau de bord.";
+                    unset($_SESSION['form_data']); // Clear form data on success
                     header("Location: dashboardpro.php");
                     exit();
                 } else {
@@ -80,6 +88,9 @@ if (isset($_POST["submit"])) {
         }
     }
 }
+
+// Repopulate form data on error
+$form_data = isset($_SESSION['form_data']) ? $_SESSION['form_data'] : array();
 ?>
 
 
@@ -201,105 +212,106 @@ text-align: center;
         <form action="inscriptionpro.php" method="post" class="form">
             <div class="input-box">
                 <label>Mon prénom *</label>
-                <input type="text" name="prenom" placeholder="Précisez votre prénom" required />
+                <input type="text" name="prenom" placeholder="Précisez votre prénom" value="<?php echo isset($_SESSION['form_data']['prenom']) ? $_SESSION['form_data']['prenom'] : ''; ?>" required />
             </div>
             <div class="input-box">
                 <label>Mon nom *</label>
-                <input type="text" name="nom" placeholder="Précisez votre nom de famille" required />
+                <input type="text" name="nom" placeholder="Précisez votre nom de famille" value="<?php echo isset($_SESSION['form_data']['nom']) ? $_SESSION['form_data']['nom'] : ''; ?>" required />
             </div>
             <div class="input-box">
                 <label>Mon email *</label>
-                <input type="email" name="email" placeholder="Enter email address" required />
+                <input type="email" name="email" placeholder="Enter email address" value="<?php echo isset($_SESSION['form_data']['email']) ? $_SESSION['form_data']['email'] : ''; ?>" required />
             </div>
             <div class="column">
                 <div class="input-box">
                     <label>Mon téléphone mobile *</label>
-                    <input type="tel" name="mobile" placeholder="Votre téléphone" required />
+                    <input type="tel" name="mobile" placeholder="Votre téléphone" value="<?php echo isset($_SESSION['form_data']['mobile']) ? $_SESSION['form_data']['mobile'] : ''; ?>" required />
                 </div>
                 <div class="input-box">
                     <label>Date de naissance *</label>
-                    <input type="date" name="data_naissance" required />
+                    <input type="date" name="data_naissance" value="<?php echo isset($_SESSION['form_data']['data_naissance']) ? $_SESSION['form_data']['data_naissance'] : ''; ?>" required />
                 </div>
             </div>
             <div class="gender-box">
                 <label for="sexe">Sexe *</label>
                 <select name="sexe" id="sexe" required>
                     <option value="">Select your gender</option>
-                    <option value="homme">Homme</option>
-                    <option value="femme">Femme</option>
+                    <option value="homme" <?php echo isset($_SESSION['form_data']['sexe']) && $_SESSION['form_data']['sexe'] == 'homme' ? 'selected' : ''; ?>>Homme</option>
+                    <option value="femme" <?php echo isset($_SESSION['form_data']['sexe']) && $_SESSION['form_data']['sexe'] == 'femme' ? 'selected' : ''; ?>>Femme</option>
                 </select>
             </div>
             <div class="input-box">
                 <label>Métier principal *</label>
-                <input type="text" name="metier" placeholder="Votre métier principal" required />
+                <input type="text" name="metier" placeholder="Votre métier principal" value="<?php echo isset($_SESSION['form_data']['metier']) ? $_SESSION['form_data']['metier'] : ''; ?>" required />
             </div>
             <div class="input-box">
                 <label>Nom commercial *</label>
-                <input type="text" name="nom_commerce" placeholder="Nom commercial" required />
+                <input type="text" name="nom_commerce" placeholder="Nom commercial" value="<?php echo isset($_SESSION['form_data']['nom_commerce']) ? $_SESSION['form_data']['nom_commerce'] : ''; ?>" required />
             </div>
             <div class="input-box">
                 <label>Structure juridique *</label>
                 <select name="str_jur" required>
                     <option value="">Sélectionnez votre structure</option>
-                    <option value="Entreprise individuelle">Entreprise individuelle</option>
-                    <option value="Association">Association</option>
-                    <option value="Auto-entrepreneur">Auto-entrepreneur</option>
+                    <option value="Entreprise individuelle" <?php echo isset($_SESSION['form_data']['str_jur']) && $_SESSION['form_data']['str_jur'] == 'Entreprise individuelle' ? 'selected' : ''; ?>>Entreprise individuelle</option>
+                    <option value="Association" <?php echo isset($_SESSION['form_data']['str_jur']) && $_SESSION['form_data']['str_jur'] == 'Association' ? 'selected' : ''; ?>>Association</option>
+                    <option value="Auto-entrepreneur" <?php echo isset($_SESSION['form_data']['str_jur']) && $_SESSION['form_data']['str_jur'] == 'Auto-entrepreneur' ? 'selected' : ''; ?>>Auto-entrepreneur</option>
                 </select>
             </div>
             <div class="input-box">
                 <label>Numéro de la carte d'identité nationale( Siret Pour les sociétés ):</label>
-                <input type="text" name="siret" placeholder="Numéro d'identité" maxlength="18" minlength="14" />
+                <input type="text" name="siret" placeholder="Numéro d'identité" maxlength="18" minlength="14" value="<?php echo isset($_SESSION['form_data']['siret']) ? $_SESSION['form_data']['siret'] : ''; ?>" />
             </div>
             <div class="input-box">
                 <label for="password">Mot de passe *</label>
                 <input type="password" name="password" id="password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" title="Le mot de passe doit contenir au moins 8 caractères, dont une majuscule, une minuscule, un chiffre et un caractère spécial." required>
-                     </div>
-                     <div class="input-box">
+            </div>
+            <div class="input-box">
                 <label for="confirm_password">Confirmer le mot de passe *</label>
                 <input type="password" name="confirm_password" id="confirm_password" required>
-                   </div>
-                  <input type="checkbox" id="showPassword" />
-                 <label for="showPassword">Afficher le mot de passe</label>
+            </div>
+            <input type="checkbox" id="showPassword" />
+            <label for="showPassword">Afficher le mot de passe</label>
             <div class="input-box address">
                 <label>Mon adresse (n° et rue) *</label>
-                <input type="text" name="nomrue" placeholder="Numéro et nom de votre rue" required />
-                <input type="text" name="adresse" placeholder="Adresse (complément)" required />
+                <input type="text" name="nomrue" placeholder="Numéro et nom de votre rue" value="<?php echo isset($_SESSION['form_data']['nomrue']) ? $_SESSION['form_data']['nomrue'] : ''; ?>" required />
+                <input type="text" name="adresse" placeholder="Adresse (complément)" value="<?php echo isset($_SESSION['form_data']['adresse']) ? $_SESSION['form_data']['adresse'] : ''; ?>" required />
                 <div class="column">
-                    <input type="text" name="ville" placeholder="Ville *" required />
+                    <input type="text" name="ville" placeholder="Ville *" value="<?php echo isset($_SESSION['form_data']['ville']) ? $_SESSION['form_data']['ville'] : ''; ?>" required />
                 </div>
                 <div class="column">
-                    <input type="text" name="codepost" placeholder="Code Postal *" required />
+                    <input type="text" name="codepost" placeholder="Code Postal *" value="<?php echo isset($_SESSION['form_data']['codepost']) ? $_SESSION['form_data']['codepost'] : ''; ?>" required />
                 </div>
             </div>
             <button type="submit" name="submit">Enregistrer mes informations</button>
         </form>
     </section>
     <script>
-    var password = document.getElementById("password"),
-        confirm_password = document.getElementById("confirm_password");
+        var password = document.getElementById("password"),
+            confirm_password = document.getElementById("confirm_password");
 
-    function validatePassword(){
-        if(password.value !== confirm_password.value) {
-            confirm_password.setCustomValidity("Les mots de passe ne correspondent pas.");
-        } else {
-            confirm_password.setCustomValidity('');
+        function validatePassword() {
+            if (password.value !== confirm_password.value) {
+                confirm_password.setCustomValidity("Les mots de passe ne correspondent pas.");
+            } else {
+                confirm_password.setCustomValidity('');
+            }
         }
-    }
 
-    password.onchange = validatePassword;
-    confirm_password.onkeyup = validatePassword;
+        password.onchange = validatePassword;
+        confirm_password.onkeyup = validatePassword;
 
-    document.getElementById('showPassword').onclick = function() {
-        if (this.checked) {
-            password.type = "text";
-            confirm_password.type = "text";
-        } else {
-            password.type = "password";
-            confirm_password.type = "password";
-        }
-    };
-</script>
+        document.getElementById('showPassword').onclick = function () {
+            if (this.checked) {
+                password.type = "text";
+                confirm_password.type = "text";
+            } else {
+                password.type = "password";
+                confirm_password.type = "password";
+            }
+        };
+    </script>
 </div>
+
 
 
 
@@ -350,7 +362,7 @@ text-align: center;
                                 <a href="index.html"><img src="./images/hirafee-white.png" class="img-fluid" alt="logo"></a>
                             </div>
                             <div class="footer-text">
-                                <p> Hiraf-ee simplifie la recherche d'artisans de confiance en Algérie.
+                                <p> Bricole simplifie la recherche d'artisans de confiance en Algérie.
                                     Trouvez les meilleurs professionnels <br> du bâtiment évalués avec précision. </p>
                             </div>
                             <div class="footer-social-icon">
@@ -365,7 +377,7 @@ text-align: center;
                     <div class="col-xl-4 col-lg-4 col-md-6 mb-30">
                         <div class="footer-widget">
                             <div class="footer-widget-heading">
-                                <h3>HIRAF-EE</h3>
+                                <h3>Bricole</h3>
                             </div>
                             <ul>
                             <li><a href="index.html#recherche">Recherche</a></li>
