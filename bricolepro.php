@@ -278,7 +278,7 @@ C'est une garantie pour les deux parties: si l'artisan n'intervient pas ou ne r√
                             <i class="far fa-envelope-open"></i>
                             <div class="cta-text">
                                 <h4>Contactez-nous</h4>
-                                <span>mail@Bricole.com</span>
+                                <span>mail@bricole.com</span>
                             </div>
                         </div>
                     </div>

@@ -27,16 +27,23 @@ if (!$job) {
 }
 
 // Check for POST request
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
     $titre = mysqli_real_escape_string($conn, $_POST['titre']);
     $description = mysqli_real_escape_string($conn, $_POST['description']);
-    // Add other fields as necessary
-
-
-
-    $update_sql = "UPDATE jobs SET titre = ?, description = ? WHERE id = ?";
+    $nom_artisan = mysqli_real_escape_string($conn, $_POST['nom_artisan']);
+    $phone = mysqli_real_escape_string($conn, $_POST['phone']);
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $wilaya = mysqli_real_escape_string($conn, $_POST['wilaya']);
+    $adresse = mysqli_real_escape_string($conn, $_POST['adresse']);
+    $date_debut = mysqli_real_escape_string($conn, $_POST['date_debut']);
+    $date_fin = mysqli_real_escape_string($conn, $_POST['date_fin']);
+    $budget = mysqli_real_escape_string($conn, $_POST['budget']);
+    
+    // Prepare and bind parameters to the SQL statement
+    $update_sql = "UPDATE jobs SET titre = ?, description = ?, nom_artisan = ?, phone = ?, email = ?, wilaya = ?, adresse = ?, date_debut = ?, date_fin = ?, budget = ? WHERE id = ?";
     $update_stmt = mysqli_prepare($conn, $update_sql);
-    mysqli_stmt_bind_param($update_stmt, 'ssi', $titre, $description, $job_id);
+    mysqli_stmt_bind_param($update_stmt, 'ssssssssssi', $titre, $description, $nom_artisan, $phone, $email, $wilaya, $adresse, $date_debut, $date_fin, $budget, $job_id);
     mysqli_stmt_execute($update_stmt);
 
     if (mysqli_stmt_affected_rows($update_stmt) > 0) {
