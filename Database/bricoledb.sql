@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 29, 2024 at 02:31 PM
+-- Generation Time: Jun 06, 2024 at 12:12 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -50,9 +50,9 @@ CREATE TABLE `jobs` (
 INSERT INTO `jobs` (`id`, `titre`, `description`, `phone`, `email`, `wilaya`, `adresse`, `date_debut`, `date_fin`, `budget`, `nom_artisan`, `user_id`, `status`) VALUES
 (164, 'Électricien qualifié pour des travaux de rénovation', 'Nous recherchons un électricien expérimenté pour rejoindre notre équipe de rénovation. Le candidat idéal devra installer, réparer et entretenir des installations électriques dans des maisons et des bureaux.', '0554952291', 'saaidrami01@gmail.com', 'Constantine', 'Centre-Ville', '2024-05-06', '2024-05-16', 95001.00, 'Electricien', NULL, 'Travail terminé'),
 (165, 'Peintre décorateur pour projets intérieurs', 'Nous avons besoin d\\\'un peintre professionnel pour des projets de décoration intérieure. Vous serez responsable de la préparation des surfaces et de l\\\'application de peintures sur divers bâtiments résidentiels.', '0554952292', 'saaidrami02@gmail.com', 'Oran', 'Centre-Ville', '2024-05-15', '2024-05-22', 95000.00, 'Peintre', NULL, 'Travail terminé'),
-(236, 'Installation de Chauffage Central', 'Nous recherchons un chauffagiste qualifié pour installer un système de chauffage central dans une maison. Le projet inclut l\'installation de radiateurs, de tuyauterie et d\'une chaudière.', '0554952290', 'inventor148@gmail.com', 'Oran', '10 Avenue de la Liberté', '2024-05-29', '2024-06-07', 30000.00, 'Chauffagiste', 30, 'Négociation des dates'),
-(237, 'Réparation de Chauffe-Eau', 'Besoin d\'un chauffagiste pour réparer un chauffe-eau électrique qui ne fonctionne plus correctement. Le chauffe-eau a besoin d\'un diagnostic et d\'une éventuelle réparation ou remplacement de pièces.', '0611223344', 'client2@gmail.com', 'Oran', '32 Rue Med Khemisti', '2024-06-01', '2024-06-09', 5400.00, 'Chauffagiste', 30, NULL),
-(239, 'Installation de Salle de Bain', 'Cherchons un plombier pour installer une nouvelle salle de bain complète dans une maison récemment rénovée. Les travaux incluent la pose de toute la tuyauterie nécessaire pour garantir une distribution efficace de l\'eau chaude et froide. Le plombier sera responsable de l\'installation d\'une douche moderne avec un mitigeur thermostatique pour un contrôle optimal de la température, ainsi que d\'un lavabo avec un meuble de rangement intégré pour maximiser l\'espace. Il devra également installer un WC suspendu pour un nettoyage plus facile et une esthétique plus moderne. Le projet demande une expertise approfondie en plomberie et une capacité à résoudre les problèmes rapidement et efficacement sur le terrain.', '0678901234', 'client3@example.com', 'Annaba', 'Rue Zighout Youcef', '2024-06-01', '2024-06-09', 6700.00, 'Plombier', 30, 'Travail terminé');
+(236, 'Installation de Chauffage Central', 'Nous recherchons un chauffagiste qualifié pour installer un système de chauffage central dans une maison. Le projet inclut l\\\'installation de radiateurs, de tuyauterie et d\\\'une chaudière.', '0554952290', 'inventor148@gmail.com', 'Oran', '10 Avenue de la Liberté', '2024-05-29', '2024-06-07', 30000.00, 'Chauffagiste', 30, 'Négociation des dates'),
+(237, 'Réparation du Chauffe-Eau', 'Besoin d\\\'un chauffagiste pour réparer un chauffe-eau électrique qui ne fonctionne plus correctement. Le chauffe-eau a besoin d\\\'un diagnostic et d\\\'une éventuelle réparation ou remplacement de pièces.', '0611223344', 'client2@gmail.com', 'Oran', '32 Rue Med Khemisti', '2024-06-01', '2024-06-09', 7400.00, 'Chauffagiste', 30, NULL),
+(239, 'Installation de Salle de Bain', 'Cherchons un plombier pour installer une nouvelle salle de bain complète dans une maison récemment rénovée. Les travaux incluent la pose de toute la tuyauterie nécessaire pour garantir une distribution efficace de l\\\'eau chaude et froide. Le plombier sera responsable de l\\\'installation d\\\'une douche moderne avec un mitigeur thermostatique pour un contrôle optimal de la température, ainsi que d\\\'un lavabo avec un meuble de rangement intégré pour maximiser l\\\'espace. Il devra également installer un WC suspendu pour un nettoyage plus facile et une esthétique plus moderne. Le projet demande une expertise approfondie en plomberie et une capacité à résoudre les problèmes rapidement et efficacement sur le terrain.', '0678901234', 'client3@example.com', 'Annaba', 'Rue Zighout Youcef', '2024-06-01', '2024-06-09', 6700.00, 'Plombier', 30, 'Travail terminé');
 
 -- --------------------------------------------------------
 
@@ -82,6 +82,20 @@ INSERT INTO `job_confirmations` (`id`, `job_id`, `pro_user_id`, `confirmed_at`) 
 (38, 237, 10, '2024-05-29 12:21:30'),
 (39, 239, 10, '2024-05-29 12:21:35'),
 (40, 236, 2, '2024-05-29 12:24:25');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `messages`
+--
+
+CREATE TABLE `messages` (
+  `id` int(11) NOT NULL,
+  `sender_id` int(11) NOT NULL,
+  `receiver_id` int(11) NOT NULL,
+  `message` text NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -137,8 +151,9 @@ CREATE TABLE `prousers` (
 --
 
 INSERT INTO `prousers` (`id`, `prenom`, `nom`, `email`, `mobile`, `data_naissance`, `sexe`, `metier`, `nom_commerce`, `str_jur`, `siret`, `password`, `nomrue`, `adresse`, `ville`, `codepost`) VALUES
-(2, 'SAAID', 'RAMI', 'inventor1482@gmail.com', '0554952290', '2024-05-10', 'homme', 'painter', 'cdcdcdcd', 'Entreprise individuelle', 4657678798876665567, '$2y$10$eSsyfVImlcs.fvjICUOFD.cA5XvxNAEY6iP4/.9GX3bR1snjOaVee', 'Centre-Ville', 'saaid rami 0554952290', 'Constantine', '25000'),
-(10, 'ferrani', 'houssem', 'houssemferrani01@gmail.com', '0656218749', '2024-05-29', 'homme', 'plombier', 'plombierdz', 'Auto-entrepreneur', 4657678798, '$2y$10$Z/v6BCxtbnc0.aMNcwWQ8uN55n8LitaSC5X13jo1XGVuE.hXlCJXu', 'Centre-Ville', 'saaid rami 0554952290', 'Constantine', '25000');
+(2, 'SAAID', 'RAMI', 'inventor1482@gmail.com', '0554952297', '2024-05-10', 'homme', 'painter', 'cdcdcdcd', 'Entreprise individuelle', 4657678798876665567, '$2y$10$eSsyfVImlcs.fvjICUOFD.cA5XvxNAEY6iP4/.9GX3bR1snjOaVee', 'Centre-Ville', 'saaid rami 0554952290', 'Constantine', '25001'),
+(10, 'ferrani', 'houssem', 'houssemferrani01@gmail.com', '0656218749', '2024-05-29', 'homme', 'plombier', 'plombierdz', 'Auto-entrepreneur', 4657678798, '$2y$10$Z/v6BCxtbnc0.aMNcwWQ8uN55n8LitaSC5X13jo1XGVuE.hXlCJXu', 'Centre-Ville', 'saaid rami 0554952290', 'Constantine', '25000'),
+(11, 'SAAID', 'RAMI', 'inventor1492@gmail.com', '0554952290', '2024-06-04', 'homme', 'plombier', 'SAAID RAMI', 'Association', 4657678798, '$2y$10$lRXldUBxLzt0RJnF1qGd8.hHDS9APmF77oznZ62jS9xYX3JoKj4n6', 'Centre-Ville', 'saaid rami 0554952290', 'Constantine', '25000');
 
 -- --------------------------------------------------------
 
@@ -221,7 +236,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `prenom`, `nom`, `email`, `mobile`, `date_n`, `sexe`, `password`, `nomrue`, `adresse`, `ville`, `codepost`, `is_active`, `verification_token`, `is_verified`) VALUES
-(30, 'rami', 'saaid', 'sadmysa079@gmail.com', 554952290, '2024-05-15', 'Femme', '$2y$10$YpqCgyxdjf2vn6aElx3ZxeXCy0.Ian3mBpsO6nhu6H/Q5zb4dZosK', 'Centre-Ville', 'saaid rami 0554952290', 'Constantine', 25001, 0, NULL, 0),
+(30, 'rami', 'saaid', 'sadmysa079@gmail.com', 554952290, '2024-05-15', 'Femme', '$2y$10$27ZXMVZInipNscA5KZQgw.fjoAX7wywbGh.Tarel3x2EHLXfCPrwS', 'Centre-Ville', 'saaid rami 0554952290', 'Constantine', 25001, 0, NULL, 0),
 (40, 'QAAID', 'RAMI', 'huinventor148@gmail.com', 554764558, '2024-05-17', 'Homme', '$2y$10$M.NhtZt9fzFZQw7dOtgEyuuOLFQnvZEvhDXUgENrEc0U4CNdTq1Oi', 'Centre-Ville', 'saaid rami 0554952290', 'Constantine', 25000, 0, NULL, 0);
 
 --
@@ -242,6 +257,14 @@ ALTER TABLE `job_confirmations`
   ADD PRIMARY KEY (`id`),
   ADD KEY `job_id` (`job_id`),
   ADD KEY `pro_user_id` (`pro_user_id`);
+
+--
+-- Indexes for table `messages`
+--
+ALTER TABLE `messages`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `sender_id` (`sender_id`),
+  ADD KEY `receiver_id` (`receiver_id`);
 
 --
 -- Indexes for table `newsletters`
@@ -286,13 +309,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `jobs`
 --
 ALTER TABLE `jobs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=240;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=243;
 
 --
 -- AUTO_INCREMENT for table `job_confirmations`
 --
 ALTER TABLE `job_confirmations`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+
+--
+-- AUTO_INCREMENT for table `messages`
+--
+ALTER TABLE `messages`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `newsletters`
@@ -304,7 +333,7 @@ ALTER TABLE `newsletters`
 -- AUTO_INCREMENT for table `prousers`
 --
 ALTER TABLE `prousers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `reviews`
@@ -316,7 +345,7 @@ ALTER TABLE `reviews`
 -- AUTO_INCREMENT for table `tbl_image`
 --
 ALTER TABLE `tbl_image`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=186;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=189;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -340,6 +369,13 @@ ALTER TABLE `jobs`
 ALTER TABLE `job_confirmations`
   ADD CONSTRAINT `job_confirmations_ibfk_1` FOREIGN KEY (`job_id`) REFERENCES `jobs` (`id`),
   ADD CONSTRAINT `job_confirmations_ibfk_2` FOREIGN KEY (`pro_user_id`) REFERENCES `prousers` (`id`);
+
+--
+-- Constraints for table `messages`
+--
+ALTER TABLE `messages`
+  ADD CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`sender_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `messages_ibfk_2` FOREIGN KEY (`receiver_id`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `reviews`
